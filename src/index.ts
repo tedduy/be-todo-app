@@ -1,30 +1,38 @@
 import express from "express";
-import'./db'
+import "./db";
+import noteRouter from "./routers/note";
+import cors from "cors";
+
 // create a server
 const app = express();
-//9.
-// app.use(express.json());
-// app.use(express.urlencoded({extended: false}));
 
+app.use(cors())
+//14/5.
 
-app.use((req, res, next) => {
-    req.on("data", (chunk) => {
-        req.body = JSON.parse(chunk);
-        next();
-    })
-    
-  },)
+// this will parse post request coming from fetch.post() method
+app.use(express.json());
+// this will parse post request coming from html form
+app.use(express.urlencoded({ extended: false }));
+
+// app.use((req, res, next) => {
+//     req.on("data", (chunk) => {
+//         req.body = JSON.parse(chunk);
+//         next();
+//     })
+
+//   },)
+
 
 app.post("/", (req, res) => {
-    console.log(req.body);
-    res.json({ message: "Hello World" });
-  }
-);
-
-app.post("/create", (req, res) => {
   console.log(req.body);
-  res.json({ message: "Hello World baaaaaaa" });
+  res.json({ message: "Hello World" });
 });
+
+
+app.use(noteRouter);
+
+
+
 // listen to a port
 
 app.listen(3000, () => {
